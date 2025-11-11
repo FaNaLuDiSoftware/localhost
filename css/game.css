@@ -199,24 +199,20 @@ main {
     cursor: pointer;
     position: relative;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    /* Sin fondo ni bordes - solo la imagen del dinosaurio */
     background-color: transparent;
     border: none;
     border-radius: 0;
-    /* Sombra sutil debajo del dinosaurio */
     filter: drop-shadow(0 3px 6px rgba(0, 0, 0, 0.3));
 }
 
 .ficha-dinosaurio:hover {
     transform: translateY(-2px) scale(1.05);
-    /* Sombra más intensa al hacer hover */
     filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.4)) 
             drop-shadow(0 0 8px rgba(74, 144, 226, 0.3));
 }
 
 .ficha-dinosaurio.seleccionada {
     transform: translateY(-4px) scale(1.1);
-    /* Sombra azul brillante y efecto de resplandor para selección */
     filter: drop-shadow(0 8px 16px rgba(74, 226, 104, 0.6)) 
             drop-shadow(0 0 12px rgba(74, 226, 94, 0.8))
             drop-shadow(0 0 20px rgba(74, 226, 104, 0.4));
@@ -231,7 +227,7 @@ main {
 .ficha-dinosaurio5 { background-image: url('../assets/fichas/lisoRosa.PNG'); }
 .ficha-dinosaurio6 { background-image: url('../assets/fichas/lisoNaranja.PNG'); }
 
-/* Animación de tembleque */
+/* Animación de tembleque (tuvimos que utilizar la IA para ayudarnos con esta animación*/
 @keyframes tembleque {
     0%, 100% { transform: translateY(-4px) scale(1.1) rotate(0deg); }
     10% { transform: translateY(-4px) scale(1.1) rotate(-1deg); }
@@ -551,14 +547,14 @@ main {
     height: 100%;
     background-color: #222; /* Mismo fondo que el header */
     color: white;
-    display: none; /* Oculto por defecto en escritorio */
+    display: none; /* Lo ocultamos por defecto */
     justify-content: center;
     align-items: center;
     text-align: center;
     font-size: 18px;
     z-index: 2000; /* Más alto que el modal de ayuda (1000) */
     padding: 20px;
-    box-sizing: border-box; /* Asegura que el padding no desborde */
+    box-sizing: border-box;
 }
 
 #rotate-message-content {

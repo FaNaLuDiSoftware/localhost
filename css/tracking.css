@@ -1,7 +1,6 @@
 /* ============================
     RESET DEL game.css
 ================================== */
-/* Layout específico de tracking: apilar secciones en columna */
 main {
     display: flex;
     flex-direction: column; /* colocar resultado debajo */
@@ -31,7 +30,6 @@ main {
     justify-content: center;
     gap: 12px;
     margin: 6px 0;
-    /* MODIFICADO: Reducido el padding inferior de 12px a 6px */
     padding: 6px 4px 6px; 
     background-color: transparent;
     flex-wrap: wrap; /* permitir varias filas si hay 5 jugadores */
@@ -79,11 +77,23 @@ main {
     padding: 2px 6px !important;
 }
 
-/* Centrar los nombres de los perfiles y truncarlos si son largos */
 .nombre-rival { text-align:center; font-weight:700; color:#fff; max-width:100%; overflow:hidden; white-space:nowrap; text-overflow:ellipsis; }
 
-/* Centrar texto en las celdas de la tabla de resultados */
 .tabla-resultados td.td-nombre, .tabla-resultados td.td-puntos { text-align:center; }
+
+/* Estilo para la columna de posiciones */
+.tabla-resultados td.td-position { 
+    text-align: center; 
+    font-size: 24px; 
+    padding: 8px 6px;
+    vertical-align: middle;
+}
+.tabla-resultados thead .th-position { 
+    text-align: center; 
+    padding: 8px 6px; 
+    color: #fff; 
+    font-weight: 700;
+}
 
 /* ============================
     CALCULADORA DE PUNTUACIÓN
@@ -91,7 +101,6 @@ main {
 h2 {
     color: white;
     text-align: center;
-    /* MODIFICADO: Reducido el margin-bottom de 20px a 8px */
     margin-bottom: 8px; 
     font-size: 24px;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
@@ -200,7 +209,7 @@ h2 {
     z-index: 9999;
 }
 .modal-contenido {
-    background-color: rgba(46,125,50,0.98); /* verde similar al tema */
+    background-color: rgba(46,125,50,0.98);
     color: #fff;
     border-radius: 12px;
     box-shadow: 0 10px 30px rgba(0,0,0,0.4);
@@ -208,7 +217,6 @@ h2 {
     border: 3px solid rgba(24, 94, 24, 0.9);
 }
 
-/* Mejor contraste para texto y botones dentro del modal */
 .modal-contenido h3, .modal-contenido p {
     color: #fff;
 }
@@ -216,7 +224,6 @@ h2 {
     border-color: rgba(255,255,255,0.2);
 }
 
-/* Estilos específicos para el modal de configuración */
 #modal-config .modal-contenido {
     max-width: 520px;
 }
@@ -229,7 +236,6 @@ h2 {
     padding: 10px 18px;
 }
 
-/* Botones estilo Menu (copiado y simplificado de css/menu.css) */
 .button {
     display: inline-block;
     padding: 12px 28px;
@@ -248,7 +254,7 @@ h2 {
     text-transform: uppercase;
     position: relative;
     overflow: hidden;
-    background-color: #4caf50; /* fallback */
+    background-color: #4caf50;
 }
 
 .button::before {
@@ -277,7 +283,6 @@ h2 {
 
 .button:active { transform: translateY(1px) scale(0.995); }
 
-/* Estilos para la tabla de resultados similar a la calculadora */
 .tabla-wrapper {
     max-width: 520px;
     margin: 8px auto 0;
@@ -303,15 +308,15 @@ h2 {
 .tabla-resultados tbody td:last-child { border-top-right-radius: 8px; border-bottom-right-radius: 8px; padding-right: 16px; }
 .resultado-header { text-align:center; font-weight:700; margin-bottom:8px; color:#fff; text-shadow: 1px 1px 2px rgba(0,0,0,0.4); }
 
-/* Ajustes responsive para móviles: evitar que el 5º jugador pase a otra fila y se solape */
 @media (max-width: 460px) {
     .div-perfiles-rivales {
-        flex-wrap: nowrap; /* mantener una fila y permitir scroll horizontal */
+        flex-wrap: nowrap;
         overflow-x: auto;
         -webkit-overflow-scrolling: touch;
         gap: 10px;
         padding: 5px 5px 0px;
     }
+    .puntaje-rival-texto { font-size: 8px; padding: 0px 0px; }
 
     .div-perfiles-rivales::-webkit-scrollbar { height: 8px; }
 
@@ -322,18 +327,16 @@ h2 {
         max-height: 50px;
     }
 
-    /* dar espacio extra arriba de la calculadora para evitar solapamientos */
     .div-calculadora { margin-top: 12px; }
 }
 @media (max-width: 375px) {
     .div-perfiles-rivales {
-        flex-wrap: nowrap; /* mantener una fila y permitir scroll horizontal */
+        flex-wrap: nowrap;
         overflow-x: auto;
         -webkit-overflow-scrolling: touch;
         gap: 8px;
         padding: 2px 2px 0px;
     }
-
     .div-perfiles-rivales::-webkit-scrollbar { height: 8px; }
 
     .perfil-rival, .boton-rival {
@@ -343,13 +346,12 @@ h2 {
         max-height: 30px;
     }
 
-    /* dar espacio extra arriba de la calculadora para evitar solapamientos */
     .div-calculadora { margin-top: 12px; }
 }
 
 @media (max-width: 320px) {
     .div-perfiles-rivales {
-        flex-wrap: nowrap; /* mantener una fila y permitir scroll horizontal */
+        flex-wrap: nowrap;
         overflow-x: auto;
         -webkit-overflow-scrolling: touch;
         gap: 6px;
@@ -369,6 +371,5 @@ h2 {
         margin: 8px 4px 0;
         padding: 8px;
     }
-    /* dar espacio extra arriba de la calculadora para evitar solapamientos */
     .div-calculadora { margin-top: 12px; }
 }

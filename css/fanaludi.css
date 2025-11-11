@@ -181,7 +181,7 @@ body {
     max-width: 64rem;
 }
 
-/* Estilos para las secciones de contenido (tarjetas) */
+/* Estilos para las secciones de contenido (lastarjetas) */
 .section-card {
     background-color: #fff;
     box-shadow: var(--card-shadow);
@@ -416,7 +416,7 @@ body {
 }
 
 
-/* Listas de características (funcionalidades clave) */
+/* Listas de características (las funcionalidades clave) */
 .feature-list {
     list-style: disc;
     list-style-position: inside;
@@ -442,7 +442,7 @@ body {
     margin-bottom: 0.5rem;
 }
 
-/* Sección de IA (Pregúntale a FaNaLuDi AI) */
+/* Sección de IA*/
 .ai-section {
     margin-top: 2rem; 
     padding-top: 1.5rem; 
