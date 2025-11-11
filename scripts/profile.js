@@ -1,7 +1,3 @@
-// Sistema simple de perfiles de usuario
-// Guarda y obtiene información del usuario logueado
-
-// Funciones básicas para el perfil del usuario
 const UserProfile = {
     // Guardar datos del usuario cuando hace login
     saveUser: function(username) {
@@ -17,10 +13,10 @@ const UserProfile = {
     getUser: function() {
         try {
             const user = localStorage.getItem('loggedUser');
-            console.log('📤 getUser() - Usuario obtenido:', user);
+            console.log('getUser() - Usuario obtenido:', user);
             return user;
         } catch (e) {
-            console.error('❌ Error al obtener usuario del localStorage:', e);
+            console.error('Error al obtener usuario del localStorage:', e);
             return null;
         }
     },
@@ -49,13 +45,13 @@ const UserProfile = {
         if (element) {
             if (username && username.trim() !== '') {
                 element.textContent = username.trim();
-                console.log('✅ Usuario mostrado exitosamente:', username.trim());
+                console.log('Usuario mostrado exitosamente:', username.trim());
             } else {
                 element.textContent = 'Invitado';
-                console.log('⚠️ No hay usuario logueado, mostrando Invitado');
+                console.log('No hay usuario logueado, mostrando Invitado');
             }
         } else {
-            console.error('❌ Elemento no encontrado con ID:', elementId);
+            console.error('Elemento no encontrado con ID:', elementId);
         }
     },
 
@@ -70,5 +66,5 @@ const UserProfile = {
 window.UserProfile = UserProfile;
 
 // Log para confirmar que el script se cargó
-console.log('🔵 profile.js cargado exitosamente');
-console.log('🔵 UserProfile disponible:', typeof UserProfile);
+console.log('profile.js cargado exitosamente');
+console.log('UserProfile disponible:', typeof UserProfile);

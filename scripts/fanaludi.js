@@ -1,7 +1,7 @@
 // Establece el año actual en el pie de página
         document.getElementById('currentYear').textContent = new Date().getFullYear();
 
-        // Manejo del formulario de contacto (simulado)
+        // Manejo del formulario de contacto
         document.getElementById('contactForm').addEventListener('submit', function(event) {
             event.preventDefault(); // Previene el envío por defecto del formulario
 
@@ -9,7 +9,6 @@
             formMessage.classList.remove('hidden', 'success-message', 'error-message');
             formMessage.textContent = ''; // Limpia mensajes anteriores
 
-            // Simula un envío exitoso
             setTimeout(() => {
                 formMessage.classList.add('success-message');
                 formMessage.textContent = '¡Mensaje enviado con éxito! Nos pondremos en contacto contigo pronto.';
@@ -81,7 +80,6 @@ Modelo de Negocio (Canvas) del Proyecto S.I.G.P.D.:
 - Estructura de Costos: Tiempo de desarrollo del equipo, costos operativos mínimos (energía, equipos), materiales de presentación, hosting local, documentación y mantenimiento.
 `;
 
-                // Llamada al endpoint PHP
                 const response = await fetch('php/gemini-proxy.php', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },

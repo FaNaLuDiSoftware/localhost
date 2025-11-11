@@ -61,13 +61,12 @@ document.addEventListener('DOMContentLoaded', function() {
             // Agregar un pequeño delay para que la animación se vea mejor
             setTimeout(() => {
                 if (this.classList.contains('seleccionada')) {
-                    // Aquí se puede agregar lógica adicional para cuando una ficha es seleccionada
                     console.log('Ficha seleccionada:', this.className);
                 }
             }, 100);
         });
         
-        // Efecto de hover mejorado
+        // Efecto de hover mejorado (se necesito ayuda de la IA)
         ficha.addEventListener('mouseenter', function() {
             if (!this.classList.contains('seleccionada')) {
                 this.style.transform = 'translateY(-2px) scale(1.05)';
@@ -141,21 +140,16 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // --- 3. Lógica para FICHAS (Draggables) ---
     fichas.forEach(ficha => {
-        // Habilitar D&D nativo
         ficha.draggable = true;
 
-        // --- Lógica D&D Escritorio (de balance.js) ---
         ficha.addEventListener('dragstart', (e) => {
-            // Encontrar la clase específica (ficha-dinosaurio1...6)
             const claseEspecifica = Array.from(ficha.classList).find(c => /^ficha-dinosaurio[1-6]$/.test(c));
-            // Asegurar un ID para encontrar el original después
             if (!ficha.id) ficha.id = 'ficha-temp-' + Math.random().toString(36).substr(2, 9);
             
             e.dataTransfer.setData('claseFicha', claseEspecifica || '');
             e.dataTransfer.setData('originalId', ficha.id);
             e.dataTransfer.effectAllowed = 'move';
             
-            // Ocultar el original (usar timeout para que el "ghost" se genere bien)
             setTimeout(() => {
                  ficha.style.visibility = 'hidden';
             }, 0);
@@ -163,7 +157,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
 
         ficha.addEventListener('dragend', (e) => {
-            // Si el drop no fue exitoso (se soltó fuera), el original sigue existiendo
             const original = document.getElementById(e.target.id);
             if (original) {
                  original.style.visibility = 'visible';
@@ -171,27 +164,26 @@ document.addEventListener('DOMContentLoaded', function() {
             ficha.classList.remove('dragging');
         });
         
-        // --- Lógica Táctil (de balance.js) ---
+        // --- Lógica Táctil (intentamos utilizar el mismo que en balance.js) ---
         ficha.addEventListener('touchstart', (e) => {
             e.preventDefault(); // Evitar scroll
             const touch = e.changedTouches[0];
             const rect = ficha.getBoundingClientRect();
 
-            // Crear clon visual que sigue el dedo
             const clone = ficha.cloneNode(true);
-            clone.classList.add('touch-clone'); // Asigna una clase para estilado (ej. z-index)
+            clone.classList.add('touch-clone');
             clone.style.position = 'fixed';
-            clone.style.left = (touch.clientX - (rect.width / 2)) + 'px'; // Centrar clon en el dedo
+            clone.style.left = (touch.clientX - (rect.width / 2)) + 'px';
             clone.style.top = (touch.clientY - (rect.height / 2)) + 'px';
             clone.style.width = rect.width + 'px';
             clone.style.height = rect.height + 'px';
-            clone.style.pointerEvents = 'none'; // El clon no debe interceptar eventos
+            clone.style.pointerEvents = 'none';
             clone.style.zIndex = 10000;
             clone.style.transform = 'scale(1.05)'; // Efecto visual
             document.body.appendChild(clone);
             
-            ficha._touchClone = clone; // Guardar referencia al clon
-            ficha.style.visibility = 'hidden'; // Ocultar original
+            ficha._touchClone = clone;
+            ficha.style.visibility = 'hidden';
         });
 
         ficha.addEventListener('touchmove', (e) => {
@@ -199,12 +191,10 @@ document.addEventListener('DOMContentLoaded', function() {
             const touch = e.changedTouches[0];
             const clone = ficha._touchClone;
             if (clone) {
-                // Mover el clon
                 const rect = clone.getBoundingClientRect();
                 clone.style.left = (touch.clientX - (rect.width / 2)) + 'px';
                 clone.style.top = (touch.clientY - (rect.height / 2)) + 'px';
                 
-                // Feedback visual: encontrar el elemento bajo el dedo
                 const elementAtPoint = document.elementFromPoint(touch.clientX, touch.clientY);
                 slots.forEach(s => {
                     const isOverSlot = (s === elementAtPoint || s.contains(elementAtPoint));
@@ -231,11 +221,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 slot = Array.from(slots).find(s => s === elementAtPoint || s.contains(elementAtPoint));
             }
             
-            // Limpiar todos los highlights
             slots.forEach(s => s.classList.remove('drop-highlight'));
 
             if (slot && !slot.dataset.occupied) {
-                // --- Lógica de Drop (Adaptada de game.js) ---
+                // --- Lógica de Drop ---
                 const claseEspecifica = Array.from(ficha.classList).find(c => /^ficha-dinosaurio[1-6]$/.test(c));
 
                 const nueva = ficha.cloneNode(true); // Clonar el original (que está oculto)
@@ -279,12 +268,12 @@ document.addEventListener('DOMContentLoaded', function() {
             e.preventDefault(); // Necesario para permitir el drop
             e.dataTransfer.dropEffect = 'move';
             if (!slot.dataset.occupied) {
-                slot.classList.add('drop-highlight'); // Feedback visual
+                slot.classList.add('drop-highlight');
             }
         });
         
         slot.addEventListener('dragleave', (e) => {
-             slot.classList.remove('drop-highlight'); // Limpiar feedback
+             slot.classList.remove('drop-highlight');
         });
 
         slot.addEventListener('drop', (e) => {
@@ -302,7 +291,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
             if (!original) return; // No se encontró el original
 
-            // --- Lógica de Drop (Adaptada de game.js) ---
+            // --- Lógica de Drop ---
             const nueva = original.cloneNode(true);
             nueva.style.visibility = 'visible'; // El original estaba oculto
             nueva.classList.remove('dragging');

@@ -557,6 +557,56 @@ const LanguageSystem = {
             es: 'Monedas',
             en: 'Coins'
         },
+        // Mensajes y alertas de admin-mode
+        'admin-select-user-first': {
+            es: 'Selecciona un usuario primero',
+            en: 'Select a user first'
+        },
+        'admin-confirm-delete': {
+            es: '¿Seguro que quieres banear este usuario?',
+            en: 'Are you sure you want to ban this user?'
+        },
+        // Códigos devueltos por backend (prefijo admin-)
+        'admin-delete-success': {
+            es: 'Usuario baneado correctamente',
+            en: 'User banned successfully'
+        },
+        'admin-delete-fail': {
+            es: 'No se pudo banear el usuario',
+            en: 'Could not banned the user'
+        },
+        'admin-reset-score-success': {
+            es: 'Puntaje vaciado correctamente',
+            en: 'Score cleared successfully'
+        },
+        'admin-reset-score-fail': {
+            es: 'No se pudo vaciar el puntaje',
+            en: 'Could not clear the score'
+        },
+        'admin-reset-money-success': {
+            es: 'Monedas vaciadas correctamente',
+            en: 'Coins cleared successfully'
+        },
+        'admin-reset-money-fail': {
+            es: 'No se pudo vaciar las monedas',
+            en: 'Could not clear the coins'
+        },
+        'admin-invalid-action': {
+            es: 'Acción no válida',
+            en: 'Invalid action'
+        },
+        'admin-invalid-user-id': {
+            es: 'ID de usuario no válido',
+            en: 'Invalid user ID'
+        },
+        'admin-protected-user': {
+            es: 'No puedes modificar al usuario administrador',
+            en: 'You cannot modify the administrator user'
+        },
+        'generic-error': {
+            es: 'Ocurrió un error. Inténtalo nuevamente.',
+            en: 'An error occurred. Please try again.'
+        },
 
         // ===== TRADUCCIONES DE ranking-tracking.php =====
         'tracking-ranking-title-tag': {
@@ -654,6 +704,10 @@ const LanguageSystem = {
         'insert-user-fail': {
             es: 'No se pudo insertar el usuario',
             en: 'Could not insert the user'
+        },
+        'insert-user-exists': {
+            es: 'El usuario ya existe',
+            en: 'User already exists'
         }
     },
 
@@ -669,7 +723,6 @@ const LanguageSystem = {
         this.currentLanguage = languageCode;
         localStorage.setItem('selectedLanguage', languageCode);
         
-        // Actualizar el atributo lang del HTML para los mensajes nativos del navegador
         document.documentElement.lang = languageCode;
         
         this.updatePageTexts();
@@ -683,7 +736,7 @@ const LanguageSystem = {
             }
         }
         
-        console.log('🌐 Idioma cambiado a:', languageCode);
+        console.log('Idioma cambiado a:', languageCode);
     },
 
     // Función para obtener idioma guardado
@@ -695,7 +748,7 @@ const LanguageSystem = {
     init: function() {
         // No inicializar si estamos en fanaludi.html
         if (window.location.pathname.includes('fanaludi.html')) {
-            console.log('🚫 fanaludi.html detectado - Sistema de idiomas NO inicializado');
+            console.log('fanaludi.html detectado - Sistema de idiomas NO inicializado');
             return;
         }
 
@@ -707,14 +760,14 @@ const LanguageSystem = {
         
         this.updatePageTexts();
         this.updateLanguageSelectors();
-        console.log('🌐 Sistema de idiomas inicializado. Idioma actual:', savedLanguage);
+        console.log('Sistema de idiomas inicializado. Idioma actual:', savedLanguage);
     },
 
     // Función para actualizar todos los textos de la página
     updatePageTexts: function() {
         // Verificar si estamos en fanaludi.html y no hacer nada si es así
         if (window.location.pathname.includes('fanaludi.html')) {
-            console.log('🚫 fanaludi.html detectado - NO se aplicarán traducciones');
+            console.log('fanaludi.html detectado - NO se aplicarán traducciones');
             return;
         }
 
@@ -799,7 +852,7 @@ const LanguageSystem = {
             const selector = document.getElementById(selectorId);
             if (selector) {
                 selector.value = this.currentLanguage;
-                console.log('🔧 Selector actualizado:', selectorId, '→', this.currentLanguage);
+                console.log('Selector actualizado:', selectorId, '→', this.currentLanguage);
             }
         });
     },
@@ -809,7 +862,7 @@ const LanguageSystem = {
         if (this.translations[key] && this.translations[key][this.currentLanguage]) {
             return this.translations[key][this.currentLanguage];
         }
-        console.warn('⚠️ Traducción no encontrada para:', key, 'en idioma:', this.currentLanguage);
+        console.warn('Traducción no encontrada para:', key, 'en idioma:', this.currentLanguage);
         return key; // Devolver la clave si no se encuentra la traducción
     }
 };
@@ -817,9 +870,9 @@ const LanguageSystem = {
 // Hacer disponible globalmente
 window.LanguageSystem = LanguageSystem;
 
-// Event listeners para los selectores de idioma
+// Evento listeners para los selectores de idioma
 document.addEventListener('DOMContentLoaded', function() {
-    console.log('🌐 language.js cargado');
+    console.log('language.js cargado');
     
     // Pequeño delay para asegurar que el DOM esté completamente listo
     setTimeout(() => {
@@ -827,14 +880,14 @@ document.addEventListener('DOMContentLoaded', function() {
         LanguageSystem.init();
     }, 100);
     
-    // Agregar event listeners a los selectores de idioma
+    // Agregar evento de  listeners a los selectores de idioma
     const languageSelectors = ['language-select', 'language-select-menu'];
     languageSelectors.forEach(selectorId => {
         const selector = document.getElementById(selectorId);
         if (selector) {
             selector.addEventListener('change', function() {
                 LanguageSystem.setLanguage(this.value);
-                console.log('🌐 Cambio de idioma via selector:', this.value);
+                console.log('Cambio de idioma via selector:', this.value);
             });
         }
     });
@@ -855,4 +908,4 @@ function closeLanguageSettings() {
     }
 }
 
-console.log('🌐 Sistema de idiomas Draftosaurus cargado exitosamente');
+console.log('Sistema de idiomas Draftosaurus cargado exitosamente');

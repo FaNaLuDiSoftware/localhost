@@ -1,5 +1,5 @@
-console.log('🟡 login.js cargado');
-console.log('🟡 UserProfile en login.js:', typeof window.UserProfile);
+console.log('login.js cargado');
+console.log('UserProfile en login.js:', typeof window.UserProfile);
 
 // Función para mostrar mensajes en el DOM
 function showMessage(elementId, message, type) {
@@ -46,16 +46,16 @@ document.getElementById('loginForm').addEventListener('submit', async (event) =>
         // Convierte la respuesta en JSON
         const data = await res.json();
 
-        console.log('🔄 LOGIN - Código de respuesta:', res.status);
-        console.log('🔄 LOGIN - Datos recibidos:', data);
+        console.log('LOGIN - Código de respuesta:', res.status);
+        console.log('LOGIN - Datos recibidos:', data);
 
-        if (res.ok && res.status >= 200 && res.status < 300) { // Si la respuesta HTTP es 2xx (éxito)
-            showMessage('loginMessage', data.message, 'success'); // Muestra mensaje de éxito
+        if (res.ok && res.status >= 200 && res.status < 300) { // Si la respuesta HTTP es 2.. algo  (éxito)
+            showMessage('loginMessage', data.message, 'success'); // Entonces muestra mensaje de éxito
             
             // GUARDAR USUARIO EN EL PERFIL
-            console.log('🔄 LOGIN EXITOSO - Usuario:', username);
-            console.log('🔄 window.UserProfile existe:', !!window.UserProfile);
-            console.log('🔄 typeof window.UserProfile:', typeof window.UserProfile);
+            console.log('LOGIN EXITOSO - Usuario:', username);
+            console.log('window.UserProfile existe:', !!window.UserProfile);
+            console.log('typeof window.UserProfile:', typeof window.UserProfile);
             
             // Intentar múltiples formas de acceder a UserProfile
             let profileSaved = false;
@@ -65,10 +65,10 @@ document.getElementById('loginForm').addEventListener('submit', async (event) =>
                 try {
                     window.UserProfile.saveUser(username);
                     const savedUser = window.UserProfile.getUser();
-                    console.log('✅ Método 1 exitoso - Usuario guardado:', savedUser);
+                    console.log('Método 1 exitoso - Usuario guardado:', savedUser);
                     profileSaved = true;
                 } catch (e) {
-                    console.error('❌ Método 1 falló:', e);
+                    console.error('Método 1 falló:', e);
                 }
             }
             
@@ -77,23 +77,23 @@ document.getElementById('loginForm').addEventListener('submit', async (event) =>
                 try {
                     localStorage.setItem('loggedUser', username);
                     const savedUser = localStorage.getItem('loggedUser');
-                    console.log('✅ Método 2 (respaldo) exitoso - Usuario guardado:', savedUser);
+                    console.log('Método 2 (respaldo) exitoso - Usuario guardado:', savedUser);
                     profileSaved = true;
                 } catch (e) {
-                    console.error('❌ Método 2 también falló:', e);
+                    console.error('Método 2 también falló:', e);
                 }
             }
             
             if (!profileSaved) {
-                console.error('❌ CRÍTICO: No se pudo guardar el usuario de ninguna manera');
+                console.error('CRÍTICO: No se pudo guardar el usuario de ninguna manera');
             }
             
             setTimeout(() => {
                 // Todos los usuarios van al mismo menú, que se adapta automáticamente
                 window.location.href = 'menu.html';
             }, 1000); // Espera 1 segundo antes de redirigir
-        } else { // Si hay error HTTP (4xx, 5xx)
-            console.log('❌ Error en el login:', data.error);
+        } else { // Si hay error HTTP (4.. o  5..)
+            console.log('Error en el login:', data.error);
             const loginErrorText = window.LanguageSystem ? window.LanguageSystem.getText('login-error') : 'Error al iniciar sesión';
             showMessage('loginMessage', data.error || loginErrorText, 'error'); // Muestra mensaje de error en rojo
         }
@@ -144,13 +144,13 @@ document.getElementById('registerForm').addEventListener('submit', async (event)
         // Convierte la respuesta en JSON
         const data = await res.json(); // Espera y obtiene la respuesta del servidor en formato JSON
 
-        console.log('🔄 REGISTRO - Código de respuesta:', res.status);
-        console.log('🔄 REGISTRO - Datos recibidos:', data);
+        console.log('REGISTRO - Código de respuesta:', res.status);
+        console.log('REGISTRO - Datos recibidos:', data);
 
         if (res.ok && res.status >= 200 && res.status < 300) { // Si la respuesta HTTP indica éxito real (2xx)
             const registerSuccessText = window.LanguageSystem ? window.LanguageSystem.getText('register-success') : 'Usuario registrado exitosamente';
             showMessage('registerMessage', data.message || registerSuccessText, 'success'); // Muestra un mensaje de éxito en el registro
-            console.log('✅ Registro exitoso');
+            console.log('Registro exitoso');
             setTimeout(() => { // Espera 1.5 segundos antes de ejecutar el siguiente bloque
                 toggleRegister(); // Cambia al formulario de login tras el registro exitoso
                 document.getElementById('newUsername').value = ''; // Limpia el campo de usuario
@@ -158,7 +158,7 @@ document.getElementById('registerForm').addEventListener('submit', async (event)
                 document.getElementById('confirmNewPassword').value = ''; // Limpia el campo de confirmación de contraseña
             }, 1500); // Retardo de 1.5 segundos
         } else { // Si la respuesta HTTP indica error (4xx, 5xx)
-            console.log('❌ Error en el registro:', data.error);
+            console.log('Error en el registro:', data.error);
             const registerErrorText = window.LanguageSystem ? window.LanguageSystem.getText('register-unknown-error') : 'Error desconocido al registrarse';
             showMessage('registerMessage', data.error || registerErrorText, 'error'); // Muestra mensaje de error
         }
@@ -199,10 +199,10 @@ function loginAsGuest() {
         try {
             window.UserProfile.logout(); // Limpiar sesión anterior
             window.UserProfile.saveUser('Invitado');
-            console.log('✅ Invitado guardado con UserProfile');
+            console.log('Invitado guardado con UserProfile');
             guestSaved = true;
         } catch (e) {
-            console.error('❌ Error con UserProfile para invitado:', e);
+            console.error('Error con UserProfile para invitado:', e);
         }
     }
     
@@ -210,15 +210,15 @@ function loginAsGuest() {
     if (!guestSaved) {
         try {
             localStorage.setItem('loggedUser', 'Invitado');
-            console.log('✅ Invitado guardado con localStorage directo');
+            console.log('Invitado guardado con localStorage directo');
             guestSaved = true;
         } catch (e) {
-            console.error('❌ Error con localStorage para invitado:', e);
+            console.error('Error con localStorage para invitado:', e);
         }
     }
     
     if (!guestSaved) {
-        console.error('❌ CRÍTICO: No se pudo guardar el invitado');
+        console.error('CRÍTICO: No se pudo guardar el invitado');
     }
     
     // Redirigir al menú normal

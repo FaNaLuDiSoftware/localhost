@@ -1,13 +1,11 @@
 <?php
-// gemini-proxy.php
-// Endpoint seguro para consultar la API de Gemini desde el frontend
 
 header('Content-Type: application/json');
 header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Methods: POST');
 header('Access-Control-Allow-Headers: Content-Type');
 
-// Tu API Key de Gemini
+// API Key de Gemini
 $apiKey = 'AIzaSyCvSs7uPvSLJWH9RGZr7Z5w9w4I_Fzj1uc';
 
 // Endpoint de Gemini
@@ -23,7 +21,7 @@ if (!$question) {
     exit;
 }
 
-// Construye el prompt completo
+// Prompt completo
 $prompt = "Notas importantes: no utilices ** para adornar ni nada por el estilo, responde de forma clara y concisa sin adorno alguno tampoco de emojis, ademas no superes las 50 palabras por consulta al menos que sea extremadamente necesario.
 Utiliza únicamente la información proporcionada sobre FaNaLuDi Software para responder a la siguiente pregunta.
 Integrantes de FaNaLuDi Software: Fabrizio Arriola, Diego Zamora, Kevin Alvarez, Lucas Recarey, Nahuel Silva.

@@ -31,8 +31,7 @@ if (!$input || !isset($input['players']) || !is_array($input['players'])) {
 $inserted = 0;
 $updated = 0;
 
-// Preparar sentencia con UPSERT: si el nombre ya existe, actualizar si el nuevo score es mayor
-// Asumimos que la columna única es user_name_rt (coherente con ranking-tracking.php)
+
 $stmt = $conn->prepare(
     "INSERT INTO ranking_tracking (user_name_rt, score_rt)
      VALUES (?, ?)
@@ -50,7 +49,6 @@ foreach ($input['players'] as $pl) {
     $score = isset($pl['score']) ? intval($pl['score']) : 0;
 
     if ($name === '' || $score < 0) {
-        // ignorar entradas inválidas
         continue;
     }
     // Limitar longitud de nombre a 20 caracteres
@@ -60,7 +58,6 @@ foreach ($input['players'] as $pl) {
 
     $stmt->bind_param('si', $name, $score);
     if ($stmt->execute()) {
-        // En MySQL, affected_rows = 1 en insert, = 2 en update por ON DUPLICATE KEY
         if ($stmt->affected_rows === 1) $inserted++;
         else if ($stmt->affected_rows === 2) $updated++;
     }

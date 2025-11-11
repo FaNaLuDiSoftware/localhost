@@ -1,10 +1,3 @@
-// Calculadora de puntuación - versión consolidada
-// - Persistencia en localStorage
-// - Reglas oficiales (según imagen)
-// - Modal ganador y tabla de resultados
-// - Actualización en vivo de puntajes en la UI
-
-// Variable global para los datos
 let datosJugadores = {};
 
 // Tabla de puntajes oficiales
@@ -50,7 +43,6 @@ function cargarDesdeLocal() {
         const parsed = JSON.parse(raw);
         for (const k in parsed) {
             if (datosJugadores[k]) {
-                // merge y clamp de valores para evitar valores fuera de rango
                 const fuente = Object.assign({}, datosJugadores[k], parsed[k]);
                 fuente.iguales = Math.max(0, Math.min(MAX_IGUALES, parseInt(fuente.iguales) || 0));
                 fuente.diferentes = Math.max(0, Math.min(MAX_DIFERENTES, parseInt(fuente.diferentes) || 0));
@@ -69,10 +61,10 @@ function cargarDesdeLocal() {
 }
 
 function actualizarPuntajesRivales() {
-    // Actualizar todos los spans que terminan en -puntaje-valor (soporta 2..5 jugadores)
+    // Actualizar todos los spans que terminan en -puntaje-valor (soporta 2 a 5 jugadores)
     const spans = document.querySelectorAll('[id$="-puntaje-valor"]');
     spans.forEach(span => {
-        const id = span.id; // e.g. rival3-puntaje-valor
+        const id = span.id;
         const clave = id.replace('-puntaje-valor','');
         const datos = datosJugadores[clave];
         span.textContent = datos ? calcularPuntaje(datos) : '0';
@@ -145,9 +137,18 @@ function mostrarResultadosEnDOM(resultados, ganadores) {
     tabla.className = 'tabla-resultados';
 
     const thead = document.createElement('thead');
+    const positionHeaderText = window.LanguageSystem ? window.LanguageSystem.getText('player-header') : '#';
     const playerHeaderText = window.LanguageSystem ? window.LanguageSystem.getText('player-header') : 'Jugador';
     const pointsHeaderText = window.LanguageSystem ? window.LanguageSystem.getText('points-header') : 'Puntos';
-    thead.innerHTML = `<tr><th id="th-jugador" class="th-jugador">${playerHeaderText}</th><th id="th-puntos" class="th-puntos">${pointsHeaderText}</th></tr>`;
+    thead.innerHTML =
+    `<tr>
+    <th id="th-position" class="th-position">
+    ${positionHeaderText}</th>
+    <th id="th-jugador" class="th-jugador">
+    ${playerHeaderText}</th>
+    <th id="th-puntos" class="th-puntos">
+    ${pointsHeaderText}</th>
+    </tr>`;
     tabla.appendChild(thead);
 
     const tbody = document.createElement('tbody');
@@ -155,6 +156,10 @@ function mostrarResultadosEnDOM(resultados, ganadores) {
         const tr = document.createElement('tr');
         const isWinner = ganadores.some(g => g.jugador === r.jugador);
         if (isWinner) tr.className = 'fila-ganador'; else tr.className = 'fila-resultado';
+
+        const tdPosition = document.createElement('td');
+        tdPosition.className = 'td-position';
+        tdPosition.textContent = r.position;
 
         const tdName = document.createElement('td');
         tdName.className = 'td-nombre';
@@ -164,6 +169,7 @@ function mostrarResultadosEnDOM(resultados, ganadores) {
         tdScore.className = 'td-puntos';
         tdScore.textContent = r.puntaje;
 
+        tr.appendChild(tdPosition);
         tr.appendChild(tdName);
         tr.appendChild(tdScore);
         tbody.appendChild(tr);
@@ -199,7 +205,6 @@ function mostrarResultadosEnDOM(resultados, ganadores) {
         const text = resultados.map(r => `${r.nombre}: ${r.puntaje}`).join('\n');
         if (navigator.clipboard && navigator.clipboard.writeText) {
             navigator.clipboard.writeText(text).then(()=>{
-                // feedback corto
                 const copiedText = window.LanguageSystem ? window.LanguageSystem.getText('copied') : 'Copiado ✓';
                 const originalText = window.LanguageSystem ? window.LanguageSystem.getText('copy-results') : 'Copiar resultados';
                 btnCopiar.textContent = copiedText;
@@ -228,6 +233,20 @@ function calcularGanador() {
         }
     }
     resultados.sort((a,b)=> b.puntaje - a.puntaje);
+    
+    // Asignar posiciones con medallas y ordinales
+    resultados.forEach((r, idx) => {
+        const pos = idx + 1;
+        switch (pos) {
+            case 1: r.position = '🥇'; break;
+            case 2: r.position = '🥈'; break;
+            case 3: r.position = '🥉'; break;
+            case 4: r.position = '4°'; break;
+            case 5: r.position = '5°'; break;
+            default: r.position = pos + '°';
+        }
+    });
+    
     const max = resultados[0] ? resultados[0].puntaje : 0;
     const ganadores = resultados.filter(r => r.puntaje === max);
     return { resultados, ganadores };
@@ -329,7 +348,6 @@ document.addEventListener('DOMContentLoaded', () => {
     actualizarCalculadora('rival1');
     actualizarPuntajesRivales();
 
-    // Aplicar clase players-N según la configuración guardada (si existe)
     (function aplicarClaseInicial(){
         try {
             const raw = localStorage.getItem('datosJugadores');
@@ -340,11 +358,9 @@ document.addEventListener('DOMContentLoaded', () => {
         } catch(e){}
     })();
 
-    // Helper para aplicar clase players-N
     function aplicarClasePlayers(n) {
         const cont = document.querySelector('.div-perfiles-rivales');
         if (!cont) return;
-        // eliminar clases players-* previas
         for (let i=2;i<=5;i++) cont.classList.remove(`players-${i}`);
         if (n >=2 && n <=5) cont.classList.add(`players-${n}`);
     }
@@ -459,10 +475,10 @@ document.addEventListener('DOMContentLoaded', () => {
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify(payload)
                     }).then(res => res.json()).then(data => {
-                        console.log('✅ tracking-save respuesta:', data);
-                    }).catch(err => console.error('❌ Error enviando tracking-save:', err));
+                        console.log('tracking-save respuesta:', data);
+                    }).catch(err => console.error('Error enviando tracking-save:', err));
                 } catch (e) {
-                    console.error('❌ Excepción preparando envío tracking-save:', e);
+                    console.error('Excepción preparando envío tracking-save:', e);
                 }
         });
     }

@@ -50,15 +50,15 @@
     <script>
         // Verificar que todo esté cargado correctamente
         document.addEventListener('DOMContentLoaded', function() {
-            console.log('🟢 DOM cargado en index.html');
-            console.log('🟢 UserProfile disponible:', !!window.UserProfile);
-            console.log('🟢 LanguageSystem disponible:', !!window.LanguageSystem);
-            console.log('🟢 Todas las funciones de UserProfile:', window.UserProfile ? Object.keys(window.UserProfile) : 'UserProfile no existe');
+            console.log('DOM cargado en index.html');
+            console.log('UserProfile disponible:', !!window.UserProfile);
+            console.log('LanguageSystem disponible:', !!window.LanguageSystem);
+            console.log('Todas las funciones de UserProfile:', window.UserProfile ? Object.keys(window.UserProfile) : 'UserProfile no existe');
             
             // Mostrar el estado actual del perfil
             if (window.UserProfile) {
                 const currentUser = window.UserProfile.getUser();
-                console.log('🟢 Usuario actual en el perfil:', currentUser);
+                console.log('Usuario actual en el perfil:', currentUser);
             }
         });
     </script>

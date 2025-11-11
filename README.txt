@@ -11,6 +11,21 @@ Clonación con Git (Recomendado para desarrollo): Si tiene Git instalado en su s
 
 
 
+Notas importantes antes de comenzar con la instalación.
+
+IMPORTANTE: Para poder ingresar como administrador se debe primero crear un usuario ADMIN y luego ingresar como el mismo.
+Recordar que las funcionalidades de Modo Administrador unicamente pueden ser vistas al loguearse como este.
+
+Por temas de seguridad, es muy importante que luego de crear el usuario ADMIN se le deba dar privilegios totales al admin
+para ello hay que ingresar. (Recuerde que debe registrarse el usuario ADMIN en la pagina del proyecto antes de dar privilegios).
+
+En el SQL de phpmyadmin colocamos la siguiente sentencia: 
+
+-- damos todos los privilegios sobre la base al ADMIN
+GRANT ALL PRIVILEGES ON usuarios_registrados_bd.* TO 'ADMIN'@'localhost';
+
+
+
 Descompresión del Archivo (si aplica)
 Si optó por la descarga en formato .zip, es necesario extraer su contenido antes de poder trabajar con el proyecto.
 Una vez finalizada la descarga, localice el archivo .zip en su sistema (comúnmente en la carpeta de "Descargas").
@@ -64,14 +79,6 @@ CREATE TABLE ranking_tracking (
     score_rt INT NOT NULL
 );
 
--- creamos el usuario ADMIN con la contraseña hasheada
-
-INSERT INTO register_user (user_name, password, score, money)
-VALUES ('ADMIN', '$2b$12$oc5rbYqq..aUtOa6LkWVJ.bzZqyidNJGiswjeBYY0O0OecTqEc2h2', 0, 0);
-
--- damos todos los privilegios sobre la base al ADMIN
-GRANT ALL PRIVILEGES ON usuarios_registrados_bd.* TO 'ADMIN'@'localhost';
-
 -- creamos tabla de partidas
 CREATE TABLE party_tables (
     id_table INT AUTO_INCREMENT PRIMARY KEY,
@@ -83,6 +90,3 @@ CREATE TABLE party_tables (
 FIN DE LA BASE DE DATOS
 ------------------------------
 
-IMPORTANTE: Para poder ingresar como administrador se debe ingresar como:
-usuario: ADMIN
-contraseña: patitofanatico69
